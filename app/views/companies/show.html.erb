@@ -1,0 +1,30 @@
+<h2><%= @company.name %></h2>
+
+<p><%= @company.description %></p>
+
+<p><%= @company.location %></p>
+
+<h4>Ingresar un nuevo reclamo</h2>
+
+<%= form_with model: [@company, Complain.new] do |f| %>
+  <div class="form-group">
+    <%= f.text_field :description, class: "form-control", placeholder: "Yo creo que la empresa..." %>
+  </div>
+  <%= f.submit "Enviar reclamo", class: "btn btn-primary" %>
+<% end %>
+<br>
+
+<h2>Reclamos</h2>
+
+<div class="panel-group">
+  <% @company.complains.each do |complain| %>
+  <div class="card">
+    <div class="card-header">
+      <%= complain.user.email %>
+    </div>
+    <div class="card-body">
+      <p><%= complain.description %></p>
+    </div>
+  </div>
+  <% end %>
+</div>

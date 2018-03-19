@@ -1,0 +1,25 @@
+<% self.class.include Rails.application.routes.url_helpers %>
+
+$(document).ready(function () {
+  var company_id = <%= Company.last.id %>
+  $('[name=commit]').click(function(e){
+    e.preventDefault(); // Evitamos el comportamiento del formulario
+    var nombre = $('[name="company[name]"]').val();
+    var descripcion = $('[name="company[description]"]').val();
+    var ubicacion = $('[name="company[location]"]').val();
+    $.ajax({
+      url: '<%= companies_path %>',
+      type: 'POST',
+      dataType: 'script',
+      data: {company: {name: nombre, description: descripcion, location: ubicacion}}
+    })
+    .done(function(data) {
+      company_id = company_id + 1
+      console.log(data.company)
+      $("#empresas").append('<tr id="'+company_id+'"><td><a href="/companies/'+company_id+'">'+data.name+'</a></td><td colspan="2"><a class="btn btn-primary btn-sm" href="/companies/'+company_id+'/edit">Editar</a><a class="btn btn-danger btn-sm" rel="nofollow" data-method="delete" href="/companies/'+company_id+'">Eliminar</a></td></tr>');
+      $("#nombre").val('');
+      $("#ubicacion").val('');
+      $("#descripcion").val('');
+    });
+  });
+});

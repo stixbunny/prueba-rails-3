@@ -1,0 +1,29 @@
+<h4>Crear una nueva empresa</h4>
+
+<%= form_with model: Company.new do |f| %>
+  <div class="form-group">
+    <%= f.label :Nombre %>
+    <%= f.text_field :name, class: "form-control", placeholder: "Compu-Mundo-Hyper-Mega-Red", id: "nombre" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :Ubicacion %>
+    <%= f.text_field :location, class: "form-control", placeholder: "Avenida Siempreviva 123", id: "ubicacion" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :Descripción %>
+    <%= f.text_field :description, class: "form-control", placeholder: "Describa su empresa...", id: "descripcion" %>
+  </div>
+  <%= f.submit :crear, class: "btn btn-primary" %>
+<% end %>
+
+<table class="table table-hover" id="empresas">
+  <tr>
+    <th>Empresa</th>
+  </tr>
+  <% @companies.each do |company| %>
+  <tr>
+    <td id="<%= company.id %>"><%= link_to company.name, company_path(company) %></td>
+    <td colspan="2"><%= link_to 'Editar', edit_company_path(company), class: 'btn btn-primary btn-sm' %> <%= link_to 'Eliminar', company_path(company), class: 'btn btn-danger btn-sm', method: :delete %></td>
+  </tr>
+  <% end %>
+</table>
